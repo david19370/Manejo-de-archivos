@@ -1,7 +1,35 @@
 #include <stdio.h>
 
+void leer();
 
 int main()
 {
+  leer();
   
+}
+
+void leer()
+{
+    int fd;
+  ssize_t NumBytes;
+  
+  fd = open ("archivo1", O_RDONLY);
+  
+  if(fd == -1)
+  {
+    printf("Error al abrir el fichero");
+  }
+  else
+  {
+    NumBytes = read(fd, char* buf, 1024);
+    if(NumBytes == 0)
+    {
+      printf("El fichero esta vacio");
+    }
+    else
+    {
+      printf(" Numero de caracteres: %d ", NumBytes);
+    }
+    
+  }
 }
