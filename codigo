@@ -1,38 +1,103 @@
+#include <stdio.h> 
+#include <string.h> 
+#include <stdlib.h>
 #include <sys/types.h> 
 #include <sys/stat.h> 
 #include <fcntl.h> 
-#include <stdio.h> 
-
+#include <unistd.h> 
+ 
 void leer();
+void escribir();
 
 int main()
-{
-  leer();
+{	
+	int  opcion;
+
+	do
+	{
+	printf("\n1. Leer fichero. \n");
+	printf("2. Escribir fichero. \n");
+	printf("3. Salir. \n");
+	printf("Introduzca una opcion: ");
+	
+	scanf("%d", &opcion);
+	printf(" \n ");
+	
+	switch(opcion)
+	{
+	
+	case 1:	leer();	break;	
+  	case 2:	escribir();	break;
+	}
   
+	} while(opcion!=3);
+	
+return 0;
 }
 
 void leer()
 {
-    int fd;
-  ssize_t NumBytes;
-  
-  fd = open ("archivo1", O_RDONLY);
-  
-  if(fd == -1)
-  {
-    printf("Error al abrir el fichero");
-  }
-  else
-  {
-    NumBytes = read(fd, char* buf, 1024);
-    if(NumBytes == 0)
-    {
-      printf("El fichero esta vacio");
-    }
-    else
-    {
-      printf(" Numero de caracteres: %d ", NumBytes);
-    }
-    
-  }
+
+	int fd;
+  	ssize_t  NumBytes;
+	char buf[1024];
+
+	fd = open("archivo1.txt", O_RDONLY);
+	if(fd < 0)
+	{
+    		printf("Error al abrir el fichero \n");
+  	}
+	else
+	{
+    		NumBytes = read(fd, buf, 1024);
+    		close(fd);
+    		
+    		if(NumBytes < 0)
+    		{
+    		printf("El fichero esta vacio\n");
+    		}
+  		else
+  		{
+  		printf("Numero de caracteres: %ld \n", NumBytes);
+    		
+  		 
+  		}	
+  	}   	
+}
+
+void escribir()
+{
+	int fd, byte;
+	char buf[1024];
+	char archivo[32];
+
+    	printf("Introduce el nombre del archivo: ");
+    	scanf("%s", archivo);	
+    	printf("\n");
+    	
+    	fd = open(archivo, O_APPEND);
+    	
+	if(fd < 0)
+	{
+    		printf("Error al abrir el fichero \n");
+  	}
+	else
+	{
+    		printf("\n Introduce lo que desee almacenar: ");
+    		fflush(stdin);
+    		scanf("%s",buf);
+		fflush(stdin);
+		
+    		byte = write(fd, buf, sizeof(buf));
+    		close(fd);
+    		
+    		if(byte <0)
+    		{
+    		printf("\nHubo un error al escribir el archivo \n");	
+    		}
+    		else
+    		{
+    		printf("\nSe escribio el fichero con exito \n");	
+    		}	
+    	}		
 }
