@@ -41,8 +41,13 @@ void leer()
 	int fd;
   	ssize_t  NumBytes;
 	char buf[1024];
-
-	fd = open("archivo1.txt", O_RDONLY);
+	char archivo[32];
+	
+	printf("Introduce el nombre del archivo: ");
+    	scanf("%s", archivo);	
+    	printf("\n");
+	
+	fd = open(archivo, O_RDONLY);
 	if(fd < 0)
 	{
     		printf("Error al abrir el fichero \n");
@@ -52,9 +57,13 @@ void leer()
     		NumBytes = read(fd, buf, 1024);
     		close(fd);
     		
-    		if(NumBytes < 0)
+    		if(NumBytes == 0)
     		{
     		printf("El fichero esta vacio\n");
+    		}
+    		else if(NumBytes < 0)
+    		{
+    		printf("Hay un error en el fichero\n");
     		}
   		else
   		{
