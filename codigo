@@ -75,7 +75,7 @@ void escribir()
     	scanf("%s", archivo);	
     	printf("\n");
     	
-    	fd = open(archivo, O_APPEND);
+    	fd = open(archivo, O_WRONLY | O_TRUNC | O_CREAT , 0600  );
     	
 	if(fd < 0)
 	{
@@ -84,9 +84,7 @@ void escribir()
 	else
 	{
     		printf("\n Introduce lo que desee almacenar: ");
-    		fflush(stdin);
     		scanf("%s",buf);
-		fflush(stdin);
 		
     		byte = write(fd, buf, sizeof(buf));
     		close(fd);
